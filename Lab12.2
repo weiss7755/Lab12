@@ -1,0 +1,45 @@
+using System;
+using System.Xml;
+
+class Program
+{
+    static void Main()
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+        string xmlFilePath = "book.xml";
+
+        // Створення XML-документу
+        XmlDocument doc = new XmlDocument();
+        XmlElement root = doc.CreateElement("book");
+
+        XmlElement title = doc.CreateElement("title");
+        title.InnerText = "Пригоди Шерлока Холмса";
+
+        XmlElement author = doc.CreateElement("author");
+        author.InnerText = "Артур Конан Дойл";
+
+        XmlElement year = doc.CreateElement("year");
+        year.InnerText = "1892";
+
+        root.AppendChild(title);
+        root.AppendChild(author);
+        root.AppendChild(year);
+
+        doc.AppendChild(root);
+        doc.Save(xmlFilePath);
+
+        Console.WriteLine($"XML-файл збережено у '{xmlFilePath}'");
+
+        // Зчитування з XML
+        XmlDocument readDoc = new XmlDocument();
+        readDoc.Load(xmlFilePath);
+
+        string readTitle = readDoc.DocumentElement.SelectSingleNode("title")?.InnerText;
+        string readAuthor = readDoc.DocumentElement.SelectSingleNode("author")?.InnerText;
+
+        Console.WriteLine("\nІнформація з XML-файлу:");
+        Console.WriteLine($"Назва книги: {readTitle}");
+        Console.WriteLine($"Автор: {readAuthor}");
+    }
+}
